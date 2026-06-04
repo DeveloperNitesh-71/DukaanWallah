@@ -8,8 +8,8 @@ const Header = () => {
             <h1 className='text-xl font-bold'>DukaanWaala</h1>
         </div>
         <ul className='flex space-x-10 cursor-pointer'>
-            <li className='bg-green-400 px-2 py-1 rounded font-medium'>Dashboard</li>
-            <li className='px-2 py-1  rounded font-medium hover:bg-gray-200'>Orders</li>
+            <li className='px-2 py-1 rounded font-medium hover:bg-gray-200'>Dashboard</li>
+            <li className='bg-green-400 px-2 py-1  rounded font-medium '>Orders</li>
             <li className='px-2 py-1  rounded font-medium hover:bg-gray-200'>Products</li>
             <li className='px-2 py-1  rounded font-medium hover:bg-gray-200'>Profile</li>
         </ul>
