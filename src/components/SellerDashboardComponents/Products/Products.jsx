@@ -10,6 +10,14 @@ const Products = () => {
         </div>
         <div className='px-20 flex gap-5 flex-wrap'>
             <ProductCard />
+            <ProductCard />
+            <ProductCard />
+            <ProductCard />
+            <ProductCard />
+            <ProductCard />
+            <ProductCard />
+            <ProductCard />
+            <ProductCard />
         </div>
     </div>
   )
