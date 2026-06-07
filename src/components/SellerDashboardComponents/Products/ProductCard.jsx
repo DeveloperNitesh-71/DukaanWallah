@@ -1,5 +1,7 @@
 import React from 'react'
 import _170ml from "../../../assets/170ml.jpeg"
+import { MdDeleteOutline } from "react-icons/md";
+import { FaEdit } from "react-icons/fa";
 const ProductCard = () => {
   return (
     <div className='w-55 border-1 border-gray-400 rounded px-5 py-3 bg-white shadow-xl gap-2 flex flex-col'>
@@ -12,8 +14,8 @@ const ProductCard = () => {
             <span className='text-gray-500 text-sm'>stock: 50</span>
             </div>
             <div className='flex w-full justify-between items-center'>
-                <button className='border-1 border-blue-600 bg-blue-300 px-2 rounded '>✏️ Edit</button>
-                <button className='border-1 border-red-600 bg-red-300 px-2 rounded '>🗑️ Delete</button>
+                <button className='border-1 border-blue-600 bg-blue-300 px-2 rounded flex items-center justify-between'><FaEdit /> Edit</button>
+                <button className='border-1 border-red-600 bg-red-300 px-2 rounded flex items-center justify-between'><MdDeleteOutline /> Delete</button>
             </div>
         </div>
     </div>

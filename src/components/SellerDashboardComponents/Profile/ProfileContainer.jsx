@@ -1,5 +1,7 @@
 import React from "react";
 import dp from "../../../assets/edited-image.png";
+import { LuLogOut } from "react-icons/lu";
+import { FaEdit } from "react-icons/fa";
 const ProfileContainer = () => {
   return (
     <div className="h-max min-w-90 border-1 border-gray-400 rounded-xl bg-white shadow-xl p-5 flex flex-col justify-between gap-5">
@@ -41,8 +43,9 @@ const ProfileContainer = () => {
         </div>
         <hr className="text-gray-500" />
         <div className="flex items-center justify-between gap-2 mt-2 w-full">
-          <button className="bg-blue-400 py-1 font-medium rounded w-full">Edit</button>
-          <button className="bg-red-400 py-1 font-medium rounded w-full">
+          <button className="bg-blue-400 py-1 font-medium rounded w-full flex items-center justify-center gap-5"><FaEdit /> Edit</button>
+          <button className="bg-red-400 py-1 font-medium rounded w-full flex items-center justify-center gap-5">
+            <LuLogOut />
             LogOut
           </button>
         </div>
