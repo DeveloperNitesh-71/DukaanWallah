@@ -1,30 +1,47 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
-const SellerCard = ({handleSelectCard}) => {
+const SellerCard = () => {
+  const navigate = useNavigate();
   return (
-    <div className='h-80 w-55 border-1 border-[rgba(245,158,11,0.3)] rounded-[10px] bg-[rgba(255,255,255,0.1)] hover:bg-[rgba(245,158,11,0.1)] hover:border-[rgb(245,158,11)] hover:translate-y-[-4px] transition-all duration-200 ease-in backdrop-blur-[10px] px-5 py-5 flex flex-col gap-2' onClick={() => {
-        handleSelectCard("sellerSelected")
-    }}>
-        <div className='text-5xl'>🏪</div>
-        <span className='text-white text-2xl font-bold'>Seller</span>
-        <p className='text-gray-400 text-[14px]'>Apna saman becho</p>
-        <ul className='text-gray-300 text-[14px] flex flex-col gap-1'>
-            <li>
-                <span className='text-[rgb(245,158,11)]'>✓ </span> 
-                <span> Khud delivery karein</span>
+    <div 
+      className='group relative h-[400px] w-72 overflow-hidden border border-white/10 rounded-2xl bg-white/5 hover:bg-white/10 transition-all duration-500 cursor-pointer backdrop-blur-xl flex flex-col p-8' 
+      onClick={() => navigate("/seller-login")}
+    >
+      {/* Glow Effect */}
+      <div className="absolute inset-0 bg-gradient-to-br from-orange-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+      
+      <div className='relative z-10 flex flex-col h-full'>
+        <div className='w-16 h-16 bg-orange-500/20 rounded-2xl flex items-center justify-center text-4xl mb-6 group-hover:scale-110 transition-transform duration-500'>
+          🏪
+        </div>
+        
+        <h3 className='text-white text-3xl font-black mb-2'>Seller</h3>
+        <p className='text-gray-400 text-sm font-medium mb-8'>Apna saman becho</p>
+        
+        <ul className='flex flex-col gap-4 flex-grow'>
+          {[
+            'Khud delivery karein',
+            'Orders track karein',
+            'Daily/Weekly reports'
+          ].map((item, i) => (
+            <li key={i} className='flex items-center gap-3 text-gray-300 text-sm'>
+              <div className='w-5 h-5 rounded-full bg-orange-500/10 flex items-center justify-center'>
+                <span className='text-orange-500 text-xs'>✓</span>
+              </div>
+              {item}
             </li>
-            <li>
-                <span className='text-[rgb(245,158,11)]'>✓ </span>
-                <span>orders track karein</span>
-            </li>
-            <li>
-                <span className='text-[rgb(245,158,11)]'>✓ </span>
-                <span>Daily/Weekly reports</span>
-            </li>
+          ))}
         </ul>
-        <div className='bg-[rgb(245,158,11)] px-2 py-1 rounded font-medium mt-4'>Continue as a seller →</div>
+        
+        <div className='mt-auto pt-6'>
+          <div className='w-full py-4 bg-orange-500 text-black font-black text-xs uppercase tracking-widest rounded-xl text-center group-hover:bg-orange-400 transition-colors shadow-lg shadow-orange-900/20'>
+            Continue as Seller →
+          </div>
+        </div>
+      </div>
     </div>
-  ) 
+  )
 }
 
 export default SellerCard

@@ -1,37 +1,69 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
-const SellerSignUpForm = ({handleProcess, handleSelectCard}) => {
+const SellerSignUpForm = ({handleProcess}) => {
+  const navigate = useNavigate();
   return (
-    <form action="" className='h-max min-w-max w-115 p-9 border border-[rgba(245,158,11,0.3)] bg-[rgba(255,255,255,0.05)] rounded-[15px] flex flex-col items-center justify-between gap-2 text-gray-400'>
-            <div className='self-start text-[14px] cursor-pointer' onClick={() => {
-              handleSelectCard('')
-            }}>← Back</div>
-            <div className='text-4xl'>🏪</div>
-            <p className='text-white text-[23px] font-bold'>Seller Sign Up</p>
-            <p className='text-[14px]'>Naya Account Banayein</p>
-            <div className='flex items-center justify-center w-full mt-5'>
-                <div className='w-full flex justify-center py-3 border border-gray-600 rounded-tl-[10px] rounded-bl-[10px] font-bold text-[14px] cursor-pointer text-gray-450' onClick={() => {
-                  handleProcess('login')
-                }}>Login</div>
-                <div className='w-full flex justify-center py-3 border border-[rgb(245,158,11)] rounded-tr-[10px] rounded-br-[10px] bg-[rgb(245,158,11)] text-black font-bold text-[14px] cursor-pointer' onClick={() => {
-                  handleProcess('signup')
-                }}>Sign Up</div>
-            </div>
-            <input type="text" placeholder='Full Name *' name='Fullname' className='border border-gray-500 px-5 py-3 w-full rounded-[10px] text-[14px] bg-[rgba(255,255,255,0.05)] backdrop-blur-[10px] outline-none mt-2' required/>
-            <input type="text" placeholder='Shop Name *' name='shopname' className='border border-gray-500 px-5 py-3 w-full rounded-[10px] text-[14px] bg-[rgba(255,255,255,0.05)] backdrop-blur-[10px] outline-none mt-2' required/>
-            <input type="phone" placeholder='Mobile Number *' name='mobileNumber' className='border border-gray-500 px-5 py-3 w-full rounded-[10px] text-[14px] bg-[rgba(255,255,255,0.05)] backdrop-blur-[10px] outline-none mt-2' required/>
-            <input type="email" placeholder='Email address *' name='email' className='border border-gray-500 px-5 py-3 w-full rounded-[10px] text-[14px] bg-[rgba(255,255,255,0.05)] backdrop-blur-[10px] outline-none mt-2' required/>
-            <input type="password" placeholder='Password * (min 6 characters)' name='password' className='border border-gray-500 px-5 py-3 w-full rounded-[10px] text-[14px] bg-[rgba(255,255,255,0.05)] backdrop-blur-[10px] outline-none mt-2' required/>
-            <div className='border border-[rgba(245,158,11,0.3)] w-full bg-[rgba(245,158,11,0.3)] p-3 rounded-[10px] flex flex-col gap-2 mt-2'>
-                <p className='text-[rgb(245,158,11)] text-[13px]'>⚠️ Zaruri Shart — Delivery Zimmedari</p>
-                <p className='text-[12px] text-gray-300'>Seller ke roop mein, aapko apne saare orders khud deliver karne honge.</p>
-                <div className='flex gap-2'>
-                    <input type="checkbox" name='selfDelivery'/>
-                    <p className='text-[12px] text-gray-300'>Main samajhta/samajhti hoon aur delivery ki zimmedari leta/leti hoon</p>
-                </div>
-            </div>
-            <div className='w-full py-3 flex justify-center items-center bg-[rgb(245,158,11)] text-black font-bold text-[15px] rounded-[10px] cursor-pointer mt-2'>Create Account</div>
-        </form>
+    <div className='relative w-full max-w-[480px] p-10 border border-white/10 bg-white/5 rounded-3xl backdrop-blur-2xl shadow-2xl flex flex-col gap-6'>
+      {/* Back Button */}
+      <button 
+        onClick={() => navigate('/')}
+        className='absolute top-8 left-8 text-gray-500 hover:text-white transition-colors flex items-center gap-2 text-xs font-bold uppercase tracking-widest'
+      >
+        <span className='text-lg'>←</span> Back
+      </button>
+
+      <div className='flex flex-col items-center gap-4 mt-8'>
+        <div className='w-16 h-16 bg-orange-500/20 rounded-2xl flex items-center justify-center text-3xl shadow-inner'>
+          🏪
+        </div>
+        <div className='text-center'>
+          <h2 className='text-white text-3xl font-black tracking-tight'>Seller Sign Up</h2>
+          <p className='text-gray-500 text-sm font-medium mt-1'>Start your business journey</p>
+        </div>
+      </div>
+
+      <div className='flex p-1 bg-white/5 rounded-2xl'>
+        <button 
+          className='flex-1 py-3 text-gray-400 hover:text-white font-black text-xs uppercase tracking-widest rounded-xl transition-all'
+          onClick={() => handleProcess('login')}
+        >
+          Login
+        </button>
+        <button 
+          className='flex-1 py-3 bg-orange-500 text-black font-black text-xs uppercase tracking-widest rounded-xl transition-all shadow-lg shadow-orange-900/20'
+          onClick={() => handleProcess('signup')}
+        >
+          Sign Up
+        </button>
+      </div>
+
+      <form className='flex flex-col gap-4' onSubmit={(e) => e.preventDefault()}>
+        <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+          <input type="text" placeholder='Full Name' className='bg-white/5 border border-white/10 px-5 py-4 rounded-2xl text-white placeholder:text-gray-600 outline-none focus:border-orange-500/50 focus:bg-white/10 transition-all text-sm' required/>
+          <input type="text" placeholder='Shop Name' className='bg-white/5 border border-white/10 px-5 py-4 rounded-2xl text-white placeholder:text-gray-600 outline-none focus:border-orange-500/50 focus:bg-white/10 transition-all text-sm' required/>
+        </div>
+        <input type="phone" placeholder='Mobile Number' className='bg-white/5 border border-white/10 px-5 py-4 rounded-2xl text-white placeholder:text-gray-600 outline-none focus:border-orange-500/50 focus:bg-white/10 transition-all text-sm' required/>
+        <input type="email" placeholder='Email Address' className='bg-white/5 border border-white/10 px-5 py-4 rounded-2xl text-white placeholder:text-gray-600 outline-none focus:border-orange-500/50 focus:bg-white/10 transition-all text-sm' required/>
+        <input type="password" placeholder='Password (min 6 characters)' className='bg-white/5 border border-white/10 px-5 py-4 rounded-2xl text-white placeholder:text-gray-600 outline-none focus:border-orange-500/50 focus:bg-white/10 transition-all text-sm' required/>
+        
+        <div className='bg-orange-500/5 border border-orange-500/20 p-5 rounded-2xl flex flex-col gap-3 mt-2'>
+          <p className='text-orange-500 text-[11px] font-black uppercase tracking-widest'>⚠️ Delivery Commitment</p>
+          <p className='text-[11px] text-gray-400 leading-relaxed'>As a seller, you are responsible for fulfilling and delivering all orders to your customers directly.</p>
+          <label className='flex items-center gap-3 cursor-pointer group'>
+            <input type="checkbox" className='w-4 h-4 rounded border-white/10 bg-white/5 accent-orange-500 transition-all' required/>
+            <span className='text-[10px] text-gray-500 group-hover:text-gray-300 transition-colors'>I accept delivery responsibility</span>
+          </label>
+        </div>
+
+        <button 
+          onClick={() => navigate('/seller')}
+          className='w-full py-5 bg-orange-500 text-black font-black text-xs uppercase tracking-widest rounded-2xl hover:bg-orange-400 transition-all transform active:scale-[0.98] shadow-xl shadow-orange-900/20 mt-2'
+        >
+          Create Seller Account →
+        </button>
+      </form>
+    </div>
   )
 }
 

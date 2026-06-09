@@ -1,19 +1,63 @@
-import React from "react";
+import React, { useMemo } from "react";
 import Card from "./Card";
-import DashboardFilter from "./DashboardFilter";
 
-const CardContainer = () => {
+const CardContainer = ({ orders, dateLabel }) => {
+  const stats = useMemo(() => {
+    const totalOrders = orders.length;
+    const activeShipments = orders.filter(o => o.status === 'Processing' || o.status === 'Pending').length;
+    const totalRevenue = orders.reduce((sum, o) => sum + (o.qty * o.price), 0);
+    const completedOrders = orders.filter(o => o.status === 'Completed').length;
+    const retentionRate = totalOrders > 0 ? Math.round((completedOrders / totalOrders) * 100) : 0;
+
+    return {
+      totalOrders,
+      activeShipments,
+      totalRevenue,
+      retentionRate
+    };
+  }, [orders]);
+
   return (
-    <div>
-      <DashboardFilter />
-      <div className="w-full h-auto flex flex-wrap justify-center items-center px-4">
-        <Card icon="📦" title="Total Orders" description="0" />
-        <Card icon="🚚" title="Total Shipments" description="0" />
-        <Card icon="💰" title="Total Revenue" description="₹ 0.00" />
-        <Card icon="👥" title="Total Customers" description="0/200" />
+    <div className="space-y-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <Card 
+          icon="📦" 
+          title="Gross Orders" 
+          description={stats.totalOrders.toLocaleString()} 
+          trend="+12.5%" 
+          trendUp={true} 
+          dateLabel={dateLabel}
+        />
+        <Card 
+          icon="🚚" 
+          title="Active Shipments" 
+          description={stats.activeShipments.toLocaleString()} 
+          trend="+8.2%" 
+          trendUp={true} 
+          dateLabel={dateLabel}
+        />
+        <Card 
+          icon="💰" 
+          title="Total Revenue" 
+          description={`₹ ${stats.totalRevenue.toLocaleString()}`} 
+          trend="+24.1%" 
+          trendUp={true} 
+          dateLabel={dateLabel}
+        />
+        <Card 
+          icon="👥" 
+          title="Success Rate" 
+          description={`${stats.retentionRate}%`} 
+          trend="Based on completions" 
+          trendUp={stats.retentionRate > 70} 
+          dateLabel={dateLabel}
+          isSuccessRate={true}
+        />
       </div>
     </div>
   );
 };
 
 export default CardContainer;
+
+
