@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Header from '../components/BuyerDashboardComponents/Header';
 import Footer from '../components/BuyerDashboardComponents/Footer';
 import { IoMdPerson, IoMdMail, IoMdPhonePortrait, IoMdPin, IoMdCamera, IoMdSave } from 'react-icons/io';
@@ -9,13 +9,32 @@ const ProfilePage = () => {
     email: 'guest@dukaanwallah.com',
     phone: '+91 98765 43210',
     address: '123, Green Park, South Delhi, Delhi - 110016',
+    profileImage: null,
+    bannerImage: null
   });
 
   const [isEditing, setIsEditing] = useState(false);
+  const profileInputRef = useRef(null);
+  const bannerInputRef = useRef(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUserInfo((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleImageChange = (e, type) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (!file.type.startsWith('image/')) {
+        alert('Please upload an image file');
+        return;
+      }
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setUserInfo(prev => ({ ...prev, [type]: reader.result }));
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const handleSave = () => {
@@ -30,16 +49,58 @@ const ProfilePage = () => {
       
       <main className="flex-grow max-w-4xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-12">
         <div className="bg-white rounded-[40px] shadow-[0_20px_50px_rgba(0,0,0,0.03)] overflow-hidden border border-gray-50">
-          {/* Cover Header */}
-          <div className="h-48 bg-gradient-to-r from-green-600 to-green-800 relative">
-            <div className="absolute -bottom-16 left-10">
+          {/* Hidden File Inputs */}
+          <input 
+            type="file" 
+            ref={profileInputRef} 
+            className="hidden" 
+            accept="image/*"
+            onChange={(e) => handleImageChange(e, 'profileImage')} 
+          />
+          <input 
+            type="file" 
+            ref={bannerInputRef} 
+            className="hidden" 
+            accept="image/*"
+            onChange={(e) => handleImageChange(e, 'bannerImage')} 
+          />
+
+          {/* Cover Header Wrapper */}
+          <div className="relative">
+            {/* Banner Container */}
+            <div className="h-48 relative overflow-hidden">
+              {userInfo.bannerImage ? (
+                <img src={userInfo.bannerImage} alt="Banner" className="w-full h-full object-cover" />
+              ) : (
+                <div className="w-full h-full bg-gradient-to-r from-green-600 to-green-800"></div>
+              )}
+              
+              <button 
+                onClick={() => bannerInputRef.current.click()}
+                aria-label="Change banner photo"
+                className="absolute top-4 right-4 p-2 bg-white/90 backdrop-blur-sm text-gray-900 rounded-xl shadow-lg hover:scale-110 transition-transform z-10"
+              >
+                <IoMdCamera />
+              </button>
+            </div>
+
+            {/* Profile Picture Container */}
+            <div className="absolute -bottom-16 left-10 z-20">
               <div className="relative group">
-                <div className="w-32 h-32 rounded-3xl bg-white p-1 shadow-xl">
-                  <div className="w-full h-full rounded-2xl bg-green-50 flex items-center justify-center text-4xl font-black text-green-700 border-2 border-green-100">
-                    {userInfo.name.charAt(0)}
-                  </div>
+                <div className="w-32 h-32 rounded-3xl bg-white p-1 shadow-xl overflow-hidden">
+                  {userInfo.profileImage ? (
+                    <img src={userInfo.profileImage} alt="Profile" className="w-full h-full object-cover rounded-2xl" />
+                  ) : (
+                    <div className="w-full h-full rounded-2xl bg-green-50 flex items-center justify-center text-4xl font-black text-green-700 border-2 border-green-100 uppercase">
+                      {userInfo.name.charAt(0)}
+                    </div>
+                  )}
                 </div>
-                <button className="absolute bottom-2 right-2 p-2 bg-gray-900 text-white rounded-xl shadow-lg hover:scale-110 transition-transform">
+                <button 
+                  onClick={() => profileInputRef.current.click()}
+                  aria-label="Upload profile photo"
+                  className="absolute bottom-2 right-2 p-2 bg-gray-900 text-white rounded-xl shadow-lg hover:scale-110 transition-transform"
+                >
                   <IoMdCamera />
                 </button>
               </div>

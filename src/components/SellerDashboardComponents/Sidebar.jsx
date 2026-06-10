@@ -1,5 +1,5 @@
 import React from 'react';
-import { IoMdSpeedometer, IoMdListBox, IoMdCart, IoMdPerson, IoMdLogOut, IoMdSettings, IoMdHelpCircle } from 'react-icons/io';
+import { IoMdSpeedometer, IoMdListBox, IoMdCart, IoMdPerson, IoMdLogOut, IoMdSettings, IoMdHelpCircle, IoMdPeople } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
 
 const Sidebar = ({ activePage }) => {
@@ -9,11 +9,12 @@ const Sidebar = ({ activePage }) => {
     { name: 'Dashboard', icon: <IoMdSpeedometer />, path: '/seller' },
     { name: 'Orders', icon: <IoMdListBox />, path: '/seller/orders' },
     { name: 'Products', icon: <IoMdCart />, path: '/seller/products' },
+    { name: 'Customer', icon: <IoMdPeople />, path: '/seller/customers' },
     { name: 'Profile', icon: <IoMdPerson />, path: '/seller/profile' },
   ];
 
   const secondaryItems = [
-    { name: 'Settings', icon: <IoMdSettings />, id: 'Settings' },
+    { name: 'Settings', icon: <IoMdSettings />, path: '/seller/settings' },
     { name: 'Help', icon: <IoMdHelpCircle />, id: 'Help' },
   ];
 
@@ -65,15 +66,25 @@ const Sidebar = ({ activePage }) => {
         <div>
           <p className="px-4 text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4">Management</p>
           <nav className="space-y-2">
-            {secondaryItems.map((item) => (
-              <button
-                key={item.id}
-                className="w-full flex items-center gap-4 px-4 py-3.5 rounded-2xl font-bold text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-900 transition-all group active:scale-[0.98]"
-              >
-                <span className="text-2xl text-gray-400 group-hover:text-green-600 transition-colors">{item.icon}</span>
-                <span className="tracking-tight">{item.name}</span>
-              </button>
-            ))}
+            {secondaryItems.map((item) => {
+              const isActive = activePage === item.name;
+              return (
+                <button
+                  key={item.name}
+                  onClick={() => item.path && navigate(item.path)}
+                  className={`w-full flex items-center gap-4 px-4 py-3.5 rounded-2xl font-bold text-sm transition-all group active:scale-[0.98] ${
+                    isActive
+                      ? 'bg-gray-900 text-white shadow-xl shadow-gray-200'
+                      : 'text-gray-500 hover:bg-gray-50 hover:text-gray-900'
+                  }`}
+                >
+                  <span className={`text-2xl transition-colors ${isActive ? 'text-green-500' : 'text-gray-400 group-hover:text-green-600'}`}>
+                    {item.icon}
+                  </span>
+                  <span className="tracking-tight">{item.name}</span>
+                </button>
+              )
+            })}
           </nav>
         </div>
       </div>

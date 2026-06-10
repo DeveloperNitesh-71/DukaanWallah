@@ -26,43 +26,6 @@ const Card = ({ icon, title, description, trend, trendUp, dateLabel, isSuccessRa
           <p className='text-gray-900 font-black text-3xl tracking-tighter'>{description}</p>
           <p className="text-gray-400 text-[10px] mt-2 font-bold uppercase tracking-wider">{dateLabel || 'this month'}</p>
         </div>
-
-        {isSuccessRate ? (
-          <div className="relative w-16 h-16 flex items-center justify-center">
-            <svg className="w-full h-full transform -rotate-90">
-              <circle
-                cx="32"
-                cy="32"
-                r="28"
-                stroke="#f3f4f6"
-                strokeWidth="8"
-                fill="transparent"
-              />
-              <circle
-                cx="32"
-                cy="32"
-                r="28"
-                stroke="#16a34a"
-                strokeWidth="8"
-                fill="transparent"
-                strokeDasharray={175.9}
-                strokeDashoffset={175.9 * (1 - parseInt(description) / 100)}
-                strokeLinecap="round"
-                className="transition-all duration-1000 ease-out"
-              />
-            </svg>
-            <span className="absolute text-xs font-black text-green-600 uppercase">Ok</span>
-          </div>
-        ) : (
-          <div className="flex-grow max-w-[100px]">
-             <div className="h-2 w-full bg-gray-50 border border-gray-100 rounded-full overflow-hidden">
-                <div 
-                  className={`h-full rounded-full transition-all duration-1000 ${trendUp ? 'bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.4)]' : 'bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.4)]'}`}
-                  style={{ width: trendUp ? '75%' : '45%' }}
-                ></div>
-             </div>
-          </div>
-        )}
       </div>
     </div>
   )

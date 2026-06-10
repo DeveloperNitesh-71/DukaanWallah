@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import Sidebar from '../SellerDashboardComponents/Sidebar'
 import NotificationsPanel from '../SellerDashboardComponents/Dashboard/NotificationsPanel'
-import SettingsModal from '../SellerDashboardComponents/Dashboard/SettingsModal'
 import { IoMdNotifications, IoMdSettings, IoMdSearch, IoMdPulse } from 'react-icons/io'
-import { Outlet, useLocation } from 'react-router-dom'
+import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 
 const SellerDashboard = () => {
   const location = useLocation()
+  const navigate = useNavigate()
   
   // Determine active page from path
   const getActivePage = () => {
@@ -14,14 +14,15 @@ const SellerDashboard = () => {
     if (path === '/seller' || path === '/seller/') return 'Dashboard'
     if (path.includes('/seller/orders')) return 'Orders'
     if (path.includes('/seller/products')) return 'Products'
+    if (path.includes('/seller/customers')) return 'Customer'
     if (path.includes('/seller/profile')) return 'Profile'
+    if (path.includes('/seller/settings')) return 'Settings'
     return 'Dashboard'
   }
 
   const activePage = getActivePage()
   const [isScrolled, setIsScrolled] = useState(false)
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false)
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false)
 
   const handleScroll = (e) => {
     setIsScrolled(e.target.scrollTop > 10)
@@ -67,9 +68,9 @@ const SellerDashboard = () => {
                 <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-green-500 rounded-full border-2 border-white"></span>
               </button>
               <button 
-                onClick={() => setIsSettingsOpen(true)}
+                onClick={() => navigate('/seller/settings')}
                 aria-label="Settings"
-                className="p-3 text-gray-400 hover:text-gray-900 hover:bg-white rounded-xl transition-all"
+                className={`p-3 rounded-xl transition-all ${activePage === 'Settings' ? 'bg-gray-900 text-white shadow-lg shadow-gray-200' : 'text-gray-400 hover:text-gray-900 hover:bg-white'}`}
               >
                 <IoMdSettings className="text-2xl" aria-hidden="true" />
               </button>
@@ -99,7 +100,6 @@ const SellerDashboard = () => {
 
       {/* Global Dashboard Popups */}
       <NotificationsPanel isOpen={isNotificationsOpen} onClose={() => setIsNotificationsOpen(false)} />
-      <SettingsModal isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} />
     </div>
   )
 }

@@ -42,7 +42,7 @@ const Dashboard = () => {
   // Specifically for Today's Pending Orders section
   const todaysPendingOrders = useMemo(() => {
     const today = new Date().toISOString().split('T')[0];
-    return orders.filter(order => order.date === today && order.status === 'Pending');
+    return orders.filter(order => order.date === today && (order.status === 'Pending' || order.status === 'Processing'));
   }, [orders]);
 
   return (

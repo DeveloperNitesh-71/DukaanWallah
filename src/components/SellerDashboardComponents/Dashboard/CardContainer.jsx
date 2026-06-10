@@ -3,6 +3,9 @@ import Card from "./Card";
 
 const CardContainer = ({ orders, dateLabel }) => {
   const stats = useMemo(() => {
+    const today = new Date().toISOString().split('T')[0];
+    const todaysOrdersCount = orders.filter(o => o.date === today).length;
+    
     const totalOrders = orders.length;
     const activeShipments = orders.filter(o => o.status === 'Processing' || o.status === 'Pending').length;
     const totalRevenue = orders.reduce((sum, o) => sum + (o.qty * o.price), 0);
@@ -13,7 +16,8 @@ const CardContainer = ({ orders, dateLabel }) => {
       totalOrders,
       activeShipments,
       totalRevenue,
-      retentionRate
+      retentionRate,
+      todaysOrdersCount
     };
   }, [orders]);
 
@@ -46,11 +50,11 @@ const CardContainer = ({ orders, dateLabel }) => {
         />
         <Card 
           icon="👥" 
-          title="Success Rate" 
-          description={`${stats.retentionRate}%`} 
-          trend="Based on completions" 
-          trendUp={stats.retentionRate > 70} 
-          dateLabel={dateLabel}
+          title="Order Target" 
+          description={`${stats.todaysOrdersCount}/200`} 
+          trend="Today's Progress" 
+          trendUp={stats.todaysOrdersCount > 100} 
+          dateLabel="Today"
           isSuccessRate={true}
         />
       </div>

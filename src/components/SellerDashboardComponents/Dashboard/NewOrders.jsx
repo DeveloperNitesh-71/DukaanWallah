@@ -11,6 +11,49 @@ const NewOrders = ({
   onRejectAll,
   showActions = false
 }) => {
+  const exportToCSV = (ordersToExport) => {
+    if (!ordersToExport || ordersToExport.length === 0) {
+      alert("No orders to export");
+      return;
+    }
+
+    const headers = ["Buyer Name", "Buyer Shop Address", "Product", "Quantity", "Unit", "Price", "Total Amount"];
+    
+    const escapeCSV = (val) => {
+      if (val === null || val === undefined) return "";
+      const str = String(val);
+      if (str.includes(",") || str.includes("\"") || str.includes("\n")) {
+        return `"${str.replace(/"/g, '""')}"`;
+      }
+      return str;
+    };
+
+    const rows = ordersToExport.map(order => [
+      escapeCSV(order.buyerName || 'N/A'),
+      escapeCSV(order.buyerAddress || 'N/A'),
+      escapeCSV(order.name),
+      order.qty,
+      escapeCSV(order.unit),
+      order.price,
+      order.qty * order.price
+    ]);
+
+    // Calculate Grand Total
+    const grandTotal = ordersToExport.reduce((sum, order) => sum + (order.qty * order.price), 0);
+    rows.push(["", "", "", "", "", "Grand Total", grandTotal]);
+
+    const csvContent = headers.join(",") + "\n" + rows.map(e => e.join(",")).join("\n");
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", `orders_${new Date().toISOString().split('T')[0]}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   const handleOrderAction = (e, action, order) => {
     e.stopPropagation();
     if (action === 'Accept' && onAccept) {
@@ -19,6 +62,8 @@ const NewOrders = ({
       onReject(order.id);
     } else if (action === 'Checkout/Complete' && onOrderClick) {
       onOrderClick(order);
+    } else if (action === 'Download CSV') {
+      exportToCSV(orders);
     } else {
       alert(`${action} action for Order: ${order.id}`);
     }
@@ -29,9 +74,9 @@ const NewOrders = ({
       <div className="px-8 py-6 border-b border-gray-100 flex justify-between items-center bg-white">
         <div>
           <h3 className="text-lg font-black text-gray-900 tracking-tighter uppercase">
-            {showActions ? "Today's Pending Orders" : (isDashboardView ? "Recent Orders" : "All Orders")}
+            {showActions ? "Today's Order Center" : (isDashboardView ? "Recent Orders" : "All Orders")}
           </h3>
-          {showActions && orders.length > 0 && (
+          {showActions && orders.some(o => o.status === 'Pending') && (
             <p className="text-[10px] font-black text-green-600 uppercase tracking-widest mt-1">Action Required</p>
           )}
         </div>
@@ -45,7 +90,7 @@ const NewOrders = ({
               >
                 Export CSV
               </button>
-              {orders.length > 0 && (
+              {orders.some(o => o.status === 'Pending') && (
                 <>
                   <button 
                     onClick={onAcceptAll}
@@ -116,22 +161,31 @@ const NewOrders = ({
                   </td>
                   {showActions && (
                     <td className="px-8 py-5 text-right">
-                      <div className="flex justify-end gap-2">
-                        <button 
-                          onClick={(e) => handleOrderAction(e, 'Accept', order)}
-                          className="p-2.5 bg-green-50 text-green-600 hover:bg-green-600 hover:text-white rounded-xl transition-all active:scale-95 group/btn shadow-sm"
-                          title="Accept Order"
-                        >
-                          <IoMdCheckmark className="text-lg" />
-                        </button>
-                        <button 
-                          onClick={(e) => handleOrderAction(e, 'Reject', order)}
-                          className="p-2.5 bg-red-50 text-red-600 hover:bg-red-600 hover:text-white rounded-xl transition-all active:scale-95 group/btn shadow-sm"
-                          title="Reject Order"
-                        >
-                          <IoMdClose className="text-lg" />
-                        </button>
-                      </div>
+                      {order.status === 'Processing' ? (
+                        <div className="flex justify-end">
+                          <span className="flex items-center gap-1.5 px-3 py-1.5 bg-green-50 text-green-600 rounded-xl text-[10px] font-black uppercase tracking-widest border border-green-100 shadow-sm">
+                            <IoMdCheckmarkCircle className="text-sm" />
+                            Accepted
+                          </span>
+                        </div>
+                      ) : (
+                        <div className="flex justify-end gap-2">
+                          <button 
+                            onClick={(e) => handleOrderAction(e, 'Accept', order)}
+                            className="p-2.5 bg-green-50 text-green-600 hover:bg-green-600 hover:text-white rounded-xl transition-all active:scale-95 group/btn shadow-sm"
+                            title="Accept Order"
+                          >
+                            <IoMdCheckmark className="text-lg" />
+                          </button>
+                          <button 
+                            onClick={(e) => handleOrderAction(e, 'Reject', order)}
+                            className="p-2.5 bg-red-50 text-red-600 hover:bg-red-600 hover:text-white rounded-xl transition-all active:scale-95 group/btn shadow-sm"
+                            title="Reject Order"
+                          >
+                            <IoMdClose className="text-lg" />
+                          </button>
+                        </div>
+                      )}
                     </td>
                   )}
                 </tr>
@@ -139,7 +193,7 @@ const NewOrders = ({
             ) : (
               <tr>
                 <td colSpan={showActions ? 5 : 4} className="px-8 py-16 text-center">
-                  <p className="text-gray-400 text-sm font-black uppercase tracking-widest">No pending orders found</p>
+                  <p className="text-gray-400 text-sm font-black uppercase tracking-widest">No orders found</p>
                 </td>
               </tr>
             )}

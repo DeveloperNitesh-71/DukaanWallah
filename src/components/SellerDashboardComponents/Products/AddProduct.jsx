@@ -12,7 +12,6 @@ const AddProduct = () => {
     name: '',
     category: 'Dairy',
     price: '',
-    stock: '',
     description: '',
     image: '',
   });
@@ -35,7 +34,6 @@ const AddProduct = () => {
     addProduct({
       ...formData,
       price: parseFloat(formData.price),
-      stock: parseInt(formData.stock) || 0,
     });
     navigate('/seller/products');
   };
@@ -101,19 +99,6 @@ const AddProduct = () => {
                 step="0.01"
                 className="w-full px-5 py-3.5 bg-gray-50 border border-gray-100 rounded-2xl focus:bg-white focus:border-green-500 focus:shadow-[0_0_0_4px_rgba(22,163,74,0.1)] outline-none transition-all font-medium text-gray-900"
                 required
-              />
-            </div>
-
-            {/* Stock */}
-            <div className="space-y-2">
-              <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Initial Stock</label>
-              <input 
-                type="number" 
-                name="stock"
-                value={formData.stock}
-                onChange={handleChange}
-                placeholder="0"
-                className="w-full px-5 py-3.5 bg-gray-50 border border-gray-100 rounded-2xl focus:bg-white focus:border-green-500 focus:shadow-[0_0_0_4px_rgba(22,163,74,0.1)] outline-none transition-all font-medium text-gray-900"
               />
             </div>
           </div>

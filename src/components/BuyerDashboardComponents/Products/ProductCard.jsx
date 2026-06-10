@@ -34,11 +34,6 @@ const ProductCard = ({ product }) => {
           alt={product.name}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
         />
-        {product.stock < 10 && (
-          <div className="absolute bottom-2 left-2 bg-orange-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
-            Only {product.stock} left!
-          </div>
-        )}
       </div>
       
       {/* Product Info */}

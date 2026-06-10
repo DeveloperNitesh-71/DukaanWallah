@@ -41,17 +41,6 @@ const ProductCard = ({ product }) => {
               <MdDeleteOutline aria-hidden="true" className="text-xl" />
             </button>
           </div>
-          
-          {/* Stock Badge - Buyer Style */}
-          <div className="absolute bottom-4 left-4">
-            <span className={`px-3 py-1 text-[10px] font-black uppercase tracking-widest rounded-full border shadow-sm transition-colors ${
-              product.stock > 10 
-                ? 'bg-green-50 text-green-700 border-green-100 shadow-green-100' 
-                : 'bg-red-50 text-red-700 border-red-100 shadow-red-100'
-            }`}>
-              {product.stock > 10 ? 'In Stock' : 'Low Stock'}
-            </span>
-          </div>
         </div>
 
         <div className='p-6 flex-grow flex flex-col bg-white'>
@@ -62,17 +51,6 @@ const ProductCard = ({ product }) => {
               </div>
             </div>
             <p className="font-black text-2xl text-gray-900 tracking-tighter mb-4">₹{product.price}</p>
-            
-            <div className="flex items-center justify-between mt-auto pt-6 border-t border-gray-50">
-              <div className="flex flex-col">
-                <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Stock Level</span>
-                <span className="font-black text-sm text-gray-900">{product.stock} <span className="text-[10px] font-bold text-gray-400">UNITS</span></span>
-              </div>
-              <div className="flex flex-col text-right">
-                <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Total Value</span>
-                <span className="font-black text-sm text-green-600 tracking-tight">₹{(product.stock * product.price).toLocaleString()}</span>
-              </div>
-            </div>
         </div>
     </div>
   )

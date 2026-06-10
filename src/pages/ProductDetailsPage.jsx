@@ -133,7 +133,7 @@ const ProductDetailsPage = () => {
                 <div className="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center text-green-600">
                   <IoMdCheckmarkCircle />
                 </div>
-                In Stock & Ready for 30min Delivery
+                Ready for 30min Delivery
               </div>
               <div className="flex items-center gap-4 text-sm font-bold text-gray-600">
                 <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 text-xl">🚚</div>
